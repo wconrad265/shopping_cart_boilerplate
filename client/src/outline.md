@@ -1,0 +1,14 @@
+- app
+  - header
+- main
+  - product-listing (component)
+    - products
+    - ul product-list (compoonent)
+      - -li product (component)
+  - add-form
+    - input group
+    - input group
+    - input group
+    - add form-actions
+      - button submit
+      - button cancel
