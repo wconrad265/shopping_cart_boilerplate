@@ -1,8 +1,16 @@
 import { Product as ProductType } from "../Types/Product";
+import { useState } from "react";
+import EditForm from "./EditForm";
 
 interface ProductProps extends ProductType {}
 
 const Product = ({ title, quantity, price }: ProductProps) => {
+  const [isEditFormVisible, setEditFormVisible] = useState(false);
+
+  const toggleEditFormVisibility = () => {
+    setEditFormVisible((prevState) => !prevState);
+  };
+
   return (
     <>
       <li className="product">
@@ -12,12 +20,21 @@ const Product = ({ title, quantity, price }: ProductProps) => {
           <p className="quantity">{quantity}</p>
           <div className="actions product-actions">
             <button className="add-to-cart">Add to Cart</button>
-            <button className="edit">Edit</button>
+            <button className="edit" onClick={toggleEditFormVisibility}>
+              Edit
+            </button>
           </div>
         </div>
         <button className="delete-button">
           <span>X</span>
         </button>
+        <EditForm
+          visibility={isEditFormVisible ? "block" : "none"}
+          title={title}
+          quantity={quantity}
+          price={price}
+          toggleEditFormVisibility={toggleEditFormVisibility}
+        />
       </li>
     </>
   );
