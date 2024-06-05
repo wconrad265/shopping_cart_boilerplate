@@ -4,3 +4,5 @@ export interface Product {
   quantity: number;
   price: number;
 }
+
+export interface NewProduct extends Omit<Product, "_id"> {}

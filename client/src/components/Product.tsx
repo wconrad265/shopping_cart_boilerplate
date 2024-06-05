@@ -7,7 +7,7 @@ interface ProductProps extends ProductType {}
 const Product = ({ title, quantity, price }: ProductProps) => {
   const [isEditFormVisible, setEditFormVisible] = useState(false);
 
-  const toggleEditFormVisibility = () => {
+  const handleEditFormVisibility = () => {
     setEditFormVisible((prevState) => !prevState);
   };
 
@@ -20,7 +20,7 @@ const Product = ({ title, quantity, price }: ProductProps) => {
           <p className="quantity">{quantity}</p>
           <div className="actions product-actions">
             <button className="add-to-cart">Add to Cart</button>
-            <button className="edit" onClick={toggleEditFormVisibility}>
+            <button className="edit" onClick={handleEditFormVisibility}>
               Edit
             </button>
           </div>
@@ -33,7 +33,7 @@ const Product = ({ title, quantity, price }: ProductProps) => {
           title={title}
           quantity={quantity}
           price={price}
-          toggleEditFormVisibility={toggleEditFormVisibility}
+          toggleEditFormVisibility={handleEditFormVisibility}
         />
       </li>
     </>

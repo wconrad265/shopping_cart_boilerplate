@@ -1,7 +1,11 @@
 import useField from "./hooks/useField";
-import { EditForm as EditFormType } from "../Types/EditForm";
-
-interface PropTypes extends EditFormType {}
+interface PropTypes {
+  title: string;
+  quantity: number;
+  price: number;
+  visibility: string;
+  toggleEditFormVisibility: () => void;
+}
 
 const EditForm = ({
   title,

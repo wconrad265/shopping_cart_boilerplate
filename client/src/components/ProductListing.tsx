@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import { Product as ProductType } from "../Types/Product";
-import { mockProducts } from "../../mockData/data.ts";
 import Product from "./Product.tsx";
+import { Product as ProductType } from "../Types/Product";
 
-const ProductListing = () => {
-  const [products, setProducts] = useState<ProductType[]>([]);
+interface PropTypes {
+  products: ProductType[];
+}
 
-  useEffect(() => {
-    setProducts((prevState) => prevState.concat(mockProducts));
-  }, []);
-
-  const createProductList = () => {
+const ProductListing = ({ products }: PropTypes) => {
+  const handleProductListCreation = () => {
     return (
       <>
         {products.map((product) => (
@@ -23,7 +19,7 @@ const ProductListing = () => {
   return (
     <div className="product-listing">
       <h2>Products</h2>
-      <ul className="product-list">{createProductList()}</ul>
+      <ul className="product-list">{handleProductListCreation()}</ul>
     </div>
   );
 };
