@@ -8,7 +8,15 @@ const useField = (type: string, id: string, initialValue: string | number) => {
     setValue(event.target.value);
   };
 
-  return { type, id, name, value, onChange };
+  const reset = () => {
+    if (typeof initialValue === "string" && initialValue === "") {
+      setValue("");
+    } else if (typeof initialValue === "number" && initialValue === 0) {
+      setValue(0);
+    }
+  };
+
+  return { type, id, name, value, onChange, reset };
 };
 
 export default useField;

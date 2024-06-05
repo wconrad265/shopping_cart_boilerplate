@@ -29,6 +29,12 @@ const Form = ({
     initialQuantity
   );
 
+  const resetForm = () => {
+    productName.reset();
+    productPrice.reset();
+    productQuantity.reset();
+  };
+
   const handleFormSubmission = (e: SyntheticEvent) => {
     e.preventDefault();
     const newProductInfo: NewProduct = {
@@ -39,6 +45,7 @@ const Form = ({
 
     onFormSubmission(newProductInfo);
     onFormVisibility();
+    resetForm();
   };
 
   return (
