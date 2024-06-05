@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import ShoppingCart from "./components/ShoppingCart";
 import ProductListing from "./components/ProductListing";
 import Form from "./components/Form";
 import { Product as ProductType, NewProduct } from "./Types/Product";
@@ -9,23 +9,42 @@ import {
   editProduct,
   deleteProduct,
 } from "./services/product";
+import {
+  addToShoppingCart,
+  checkout,
+  getShoppingCart,
+} from "./services/ShoppingCart";
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [cartItems, setCartItems] = useState<ProductType[]>([]);
   const [isAddFormVisible, setAddForm] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const initialProducts = await getAllProducts();
-
-        setProducts(initialProducts);
+        const response = await getAllProducts();
+        setProducts(response);
       } catch (error) {
         console.error();
       }
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchShoppingCart = async () => {
+      try {
+        const response = await getShoppingCart();
+
+        setCartItems(response);
+      } catch (error) {
+        console.error();
+      }
+    };
+
+    fetchShoppingCart();
   }, []);
 
   const handleAddFormVisibility = () => {
@@ -72,23 +91,62 @@ function App() {
     }
   };
 
+  const handleAddProductButton = () => {
+    return (
+      <p>
+        <button
+          className="add-product-button"
+          onClick={handleAddFormVisibility}
+        >
+          Add A Product
+        </button>
+      </p>
+    );
+  };
+
+  const handleAddCartItem = async (productId: string) => {
+    try {
+      const { product, item } = await addToShoppingCart(productId);
+
+      if (cartItems.find((i) => i._id === item._id)) {
+        setCartItems((prevState) =>
+          prevState.map((i) => (i._id === item._id ? item : i))
+        );
+      } else {
+        setCartItems((prevState) => prevState.concat(item));
+      }
+
+      setProducts((prevState) =>
+        prevState.map((p) => (p._id === productId ? product : p))
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      await checkout();
+      setCartItems([]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id="app">
-      <Header />
+      <header>
+        <h1>The Shop!</h1>
+        {<ShoppingCart cartItems={cartItems} onCheckout={handleCheckout} />}
+      </header>
       <main>
         <ProductListing
           products={products}
           onEditingProduct={handleEditProduct}
           onProductDeletion={handleDeletionOfProduct}
+          onAddToCartItem={handleAddCartItem}
         />
-        <p>
-          <button
-            className="add-product-button"
-            onClick={handleAddFormVisibility}
-          >
-            Add A Product
-          </button>
-        </p>
+        {handleAddProductButton()}
         <Form
           onFormSubmission={handleAddingProduct}
           isFormVisible={isAddFormVisible}

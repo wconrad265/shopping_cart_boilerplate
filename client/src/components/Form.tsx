@@ -7,9 +7,9 @@ interface FormProps {
   isFormVisible: boolean;
   className: string;
   onFormVisibility: () => void;
-  initialPrice?: number;
+  initialPrice?: string;
   initialName?: string;
-  initialQuantity?: number;
+  initialQuantity?: string;
 }
 
 const Form = ({
@@ -17,9 +17,9 @@ const Form = ({
   isFormVisible,
   className,
   onFormVisibility,
-  initialPrice = 0,
+  initialPrice = "",
   initialName = "",
-  initialQuantity = 0,
+  initialQuantity = "",
 }: FormProps) => {
   const productName = useField("text", "product-name", initialName);
   const productPrice = useField("number", "product-price", initialPrice);
@@ -45,7 +45,7 @@ const Form = ({
 
     onFormSubmission(newProductInfo);
     onFormVisibility();
-    resetForm();
+    if (className === "add-form") resetForm();
   };
 
   return (
@@ -57,15 +57,38 @@ const Form = ({
         <form onSubmit={handleFormSubmission}>
           <div className="input-group">
             <label htmlFor="product-name">Product Name:</label>
-            <input required {...productName} />
+            <input
+              required
+              type={productName.type}
+              id={productName.id}
+              name={productName.name}
+              value={productName.value}
+              onChange={productName.onChange}
+            />
           </div>
           <div className="input-group">
             <label htmlFor="product-price">Product Price:</label>
-            <input required min="0" step="0.01" {...productPrice} />
+            <input
+              required
+              type={productPrice.type}
+              id={productPrice.id}
+              name={productPrice.name}
+              value={productPrice.value}
+              onChange={productPrice.onChange}
+              min="0"
+              step="0.01"
+            />
           </div>
           <div className="input-group">
             <label htmlFor="product-quantity">Product Quantity:</label>
-            <input required {...productQuantity} />
+            <input
+              required
+              type={productQuantity.type}
+              id={productQuantity.id}
+              name={productQuantity.name}
+              value={productQuantity.value}
+              onChange={productQuantity.onChange}
+            />
           </div>
           <div className="actions form-actions">
             <button type="submit">Add</button>

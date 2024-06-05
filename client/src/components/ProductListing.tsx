@@ -5,12 +5,14 @@ interface PropTypes {
   products: ProductType[];
   onEditingProduct: (product: ProductType) => void;
   onProductDeletion: (id: string) => void;
+  onAddToCartItem: (id: string) => void;
 }
 
 const ProductListing = ({
   products,
   onEditingProduct,
   onProductDeletion,
+  onAddToCartItem,
 }: PropTypes) => {
   const handleProductListCreation = () => {
     return (
@@ -20,6 +22,7 @@ const ProductListing = ({
             key={product._id}
             onEditingProduct={onEditingProduct}
             onProductDeletion={onProductDeletion}
+            onAddToCartItem={onAddToCartItem}
             {...product}
           />
         ))}

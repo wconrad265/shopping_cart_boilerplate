@@ -5,6 +5,7 @@ import Form from "./Form";
 interface ProductProps extends ProductType {
   onEditingProduct: (product: ProductType) => void;
   onProductDeletion: (id: string) => void;
+  onAddToCartItem: (id: string) => void;
 }
 
 const Product = ({
@@ -14,6 +15,7 @@ const Product = ({
   _id,
   onEditingProduct,
   onProductDeletion,
+  onAddToCartItem,
 }: ProductProps) => {
   const [isEditFormVisible, setEditFormVisible] = useState(false);
 
@@ -37,7 +39,13 @@ const Product = ({
           <p className="price">{price}</p>
           <p className="quantity">{quantity}</p>
           <div className="actions product-actions">
-            <button className="add-to-cart">Add to Cart</button>
+            <button
+              className="add-to-cart"
+              onClick={() => onAddToCartItem(_id)}
+              disabled={quantity === 0}
+            >
+              Add to Cart
+            </button>
             <button className="edit" onClick={handleEditFormVisibility}>
               Edit
             </button>
@@ -55,8 +63,8 @@ const Product = ({
           className="edit-form"
           onFormVisibility={handleEditFormVisibility}
           initialName={title}
-          initialPrice={price}
-          initialQuantity={quantity}
+          initialPrice={String(price)}
+          initialQuantity={String(quantity)}
         />
       </li>
     </>
