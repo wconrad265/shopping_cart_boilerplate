@@ -1,22 +1,35 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent } from "react";
 import useField from "./hooks/useField";
 import { NewProduct } from "../Types/Product";
 
 interface AddFormProps {
-  onAddingNewProduct: (product: NewProduct) => void;
+  onFormSubmission: (product: NewProduct) => void;
+  isFormVisible: boolean;
+  className: string;
+  onFormVisibility: () => void;
+  initialPrice?: number;
+  initialName?: string;
+  initialQuantity?: number;
 }
 
-const AddForm = ({ onAddingNewProduct }: AddFormProps) => {
-  const productName = useField("text", "product-name", "");
-  const productPrice = useField("number", "product-price", "");
-  const productQuantity = useField("number", "product-quantity", "");
-  const [isAddFormVisible, setAddForm] = useState(false);
+const Form = ({
+  onFormSubmission,
+  isFormVisible,
+  className,
+  onFormVisibility,
+  initialPrice = 0,
+  initialName = "",
+  initialQuantity = 0,
+}: AddFormProps) => {
+  const productName = useField("text", "product-name", initialName);
+  const productPrice = useField("number", "product-price", initialPrice);
+  const productQuantity = useField(
+    "number",
+    "product-quantity",
+    initialQuantity
+  );
 
-  const handleAddFormVisibility = () => {
-    setAddForm((prevState) => !prevState);
-  };
-
-  const handleAddingNewProduct = (e: SyntheticEvent) => {
+  const handleFormSubmission = (e: SyntheticEvent) => {
     e.preventDefault;
     const newProduct: NewProduct = {
       title: String(productName.value),
@@ -24,24 +37,16 @@ const AddForm = ({ onAddingNewProduct }: AddFormProps) => {
       quantity: Number(productQuantity.value),
     };
 
-    onAddingNewProduct(newProduct);
+    onFormSubmission(newProduct);
   };
 
   return (
     <>
-      <p>
-        <button
-          className="add-product-button"
-          onClick={handleAddFormVisibility}
-        >
-          Add A Product
-        </button>
-      </p>
       <div
-        className="add-form"
-        style={{ display: isAddFormVisible ? "block" : "none" }}
+        className={className}
+        style={{ display: isFormVisible ? "block" : "none" }}
       >
-        <form onSubmit={handleAddingNewProduct}>
+        <form onSubmit={handleFormSubmission}>
           <div className="input-group">
             <label htmlFor="product-name">Product Name:</label>
             <input required {...productName} />
@@ -56,7 +61,7 @@ const AddForm = ({ onAddingNewProduct }: AddFormProps) => {
           </div>
           <div className="actions form-actions">
             <button type="submit">Add</button>
-            <button type="button" onClick={handleAddFormVisibility}>
+            <button type="button" onClick={onFormVisibility}>
               Cancel
             </button>
           </div>
@@ -66,4 +71,4 @@ const AddForm = ({ onAddingNewProduct }: AddFormProps) => {
   );
 };
 
-export default AddForm;
+export default Form;

@@ -1,12 +1,13 @@
 import Header from "./components/Header";
 import ProductListing from "./components/ProductListing";
-import AddForm from "./components/AddForm";
+import Form from "./components/Form";
 import { Product as ProductType, NewProduct } from "./Types/Product";
 import { useEffect, useState } from "react";
 import { getAllProducts, addNewProduct } from "./services/product";
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [isAddFormVisible, setAddForm] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,6 +22,10 @@ function App() {
 
     fetchProducts();
   }, []);
+
+  const handleAddFormVisibility = () => {
+    setAddForm((prevState) => !prevState);
+  };
 
   const handleAddingProduct = async (product: NewProduct) => {
     try {
@@ -38,13 +43,29 @@ function App() {
       console.error();
     }
   };
-  
+
   return (
     <div id="app">
       <Header />
       <main>
-        <ProductListing products={products} />
-        <AddForm onAddingNewProduct={handleAddingProduct} />
+        <ProductListing
+          products={products}
+          onAddingProduct={handleAddingProduct}
+        />
+        <p>
+          <button
+            className="add-product-button"
+            onClick={handleAddFormVisibility}
+          >
+            Add A Product
+          </button>
+        </p>
+        <Form
+          onFormSubmission={handleAddingProduct}
+          isFormVisible={isAddFormVisible}
+          className="add-form"
+          onFormVisibility={handleAddFormVisibility}
+        />
       </main>
     </div>
   );
