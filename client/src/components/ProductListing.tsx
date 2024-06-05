@@ -1,19 +1,25 @@
 import Product from "./Product.tsx";
-import { Product as ProductType, NewProduct } from "../Types/Product";
+import { Product as ProductType } from "../Types/Product";
 
 interface PropTypes {
   products: ProductType[];
-  onAddingProduct: (product: NewProduct) => void;
+  onEditingProduct: (product: ProductType) => void;
+  onProductDeletion: (id: string) => void;
 }
 
-const ProductListing = ({ products, onAddingProduct }: PropTypes) => {
+const ProductListing = ({
+  products,
+  onEditingProduct,
+  onProductDeletion,
+}: PropTypes) => {
   const handleProductListCreation = () => {
     return (
       <>
         {products.map((product) => (
           <Product
             key={product._id}
-            onAddingProduct={onAddingProduct}
+            onEditingProduct={onEditingProduct}
+            onProductDeletion={onProductDeletion}
             {...product}
           />
         ))}

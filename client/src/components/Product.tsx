@@ -1,16 +1,32 @@
-import { Product as ProductType } from "../Types/Product";
+import { NewProduct, Product as ProductType } from "../Types/Product";
 import { useState } from "react";
 import Form from "./Form";
 
 interface ProductProps extends ProductType {
-  onAddingProduct: (product: NewProduct) => void;
+  onEditingProduct: (product: ProductType) => void;
+  onProductDeletion: (id: string) => void;
 }
 
-const Product = ({ title, quantity, price, onAddingProduct }: ProductProps) => {
+const Product = ({
+  title,
+  quantity,
+  price,
+  _id,
+  onEditingProduct,
+  onProductDeletion,
+}: ProductProps) => {
   const [isEditFormVisible, setEditFormVisible] = useState(false);
 
   const handleEditFormVisibility = () => {
     setEditFormVisible((prevState) => !prevState);
+  };
+
+  const handleEditFormSubmission = async (newProductInfo: NewProduct) => {
+    try {
+      await onEditingProduct({ _id, ...newProductInfo });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -27,11 +43,14 @@ const Product = ({ title, quantity, price, onAddingProduct }: ProductProps) => {
             </button>
           </div>
         </div>
-        <button className="delete-button">
+        <button
+          className="delete-button"
+          onClick={() => onProductDeletion(_id)}
+        >
           <span>X</span>
         </button>
         <Form
-          onFormSubmission={onAddingProduct}
+          onFormSubmission={handleEditFormSubmission}
           isFormVisible={isEditFormVisible}
           className="edit-form"
           onFormVisibility={handleEditFormVisibility}

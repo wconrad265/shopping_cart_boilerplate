@@ -2,7 +2,7 @@ import { SyntheticEvent } from "react";
 import useField from "./hooks/useField";
 import { NewProduct } from "../Types/Product";
 
-interface AddFormProps {
+interface FormProps {
   onFormSubmission: (product: NewProduct) => void;
   isFormVisible: boolean;
   className: string;
@@ -20,7 +20,7 @@ const Form = ({
   initialPrice = 0,
   initialName = "",
   initialQuantity = 0,
-}: AddFormProps) => {
+}: FormProps) => {
   const productName = useField("text", "product-name", initialName);
   const productPrice = useField("number", "product-price", initialPrice);
   const productQuantity = useField(
@@ -30,14 +30,15 @@ const Form = ({
   );
 
   const handleFormSubmission = (e: SyntheticEvent) => {
-    e.preventDefault;
-    const newProduct: NewProduct = {
+    e.preventDefault();
+    const newProductInfo: NewProduct = {
       title: String(productName.value),
       price: Number(productPrice.value),
       quantity: Number(productQuantity.value),
     };
 
-    onFormSubmission(newProduct);
+    onFormSubmission(newProductInfo);
+    onFormVisibility();
   };
 
   return (

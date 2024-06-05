@@ -3,7 +3,12 @@ import ProductListing from "./components/ProductListing";
 import Form from "./components/Form";
 import { Product as ProductType, NewProduct } from "./Types/Product";
 import { useEffect, useState } from "react";
-import { getAllProducts, addNewProduct } from "./services/product";
+import {
+  getAllProducts,
+  addNewProduct,
+  editProduct,
+  deleteProduct,
+} from "./services/product";
 
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -44,13 +49,37 @@ function App() {
     }
   };
 
+  const handleEditProduct = async (product: ProductType) => {
+    try {
+      const id = product._id;
+
+      const editedProduct = await editProduct(product, id);
+
+      setProducts((prevState) =>
+        prevState.map((p) => (p._id === id ? editedProduct : p))
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeletionOfProduct = async (id: string) => {
+    try {
+      await deleteProduct(id);
+      setProducts((prevState) => prevState.filter((p) => p._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id="app">
       <Header />
       <main>
         <ProductListing
           products={products}
-          onAddingProduct={handleAddingProduct}
+          onEditingProduct={handleEditProduct}
+          onProductDeletion={handleDeletionOfProduct}
         />
         <p>
           <button
