@@ -21,7 +21,7 @@ const ToggleAddProductButton = ({ onFormSubmission }: ToggleAddFromTypes) => {
           onFormSubmission={onFormSubmission}
           className="add-form"
           onFormVisibility={handleAddFormVisibility}
-          isFormVisible={isAddFormVisible}
+          submitButtonText={"Add"}
         />
       ) : (
         <p>

@@ -4,19 +4,19 @@ import { NewProduct } from "../Types/Product";
 
 interface FormProps {
   onFormSubmission: (product: NewProduct, callback?: () => void) => void;
-  isFormVisible: boolean;
   className: string;
   onFormVisibility: () => void;
   initialPrice?: string;
   initialName?: string;
   initialQuantity?: string;
+  submitButtonText: string;
 }
 
 const Form = ({
   onFormSubmission,
-  isFormVisible,
   className,
   onFormVisibility,
+  submitButtonText,
   initialPrice = "",
   initialName = "",
   initialQuantity = "",
@@ -49,10 +49,7 @@ const Form = ({
 
   return (
     <>
-      <div
-        className={className}
-        style={{ display: isFormVisible ? "block" : "none" }}
-      >
+      <div className={className}>
         <form onSubmit={handleFormSubmission}>
           <div className="input-group">
             <label htmlFor="product-name">Product Name:</label>
@@ -90,7 +87,7 @@ const Form = ({
             />
           </div>
           <div className="actions form-actions">
-            <button type="submit">Add</button>
+            <button type="submit">{submitButtonText}</button>
             <button type="button" onClick={onFormVisibility}>
               Cancel
             </button>

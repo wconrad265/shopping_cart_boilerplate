@@ -44,15 +44,17 @@ const Product = ({
           quantity={quantity}
           _id={_id}
         />
-        <Form
-          onFormSubmission={handleEditFormSubmission}
-          isFormVisible={isEditFormVisible}
-          className="edit-form"
-          onFormVisibility={handleEditFormVisibility}
-          initialName={title}
-          initialPrice={String(price)}
-          initialQuantity={String(quantity)}
-        />
+        {isEditFormVisible && (
+          <Form
+            onFormSubmission={handleEditFormSubmission}
+            className="edit-form"
+            onFormVisibility={handleEditFormVisibility}
+            submitButtonText={"Update"}
+            initialName={title}
+            initialPrice={String(price)}
+            initialQuantity={String(quantity)}
+          />
+        )}
       </li>
     </>
   );
