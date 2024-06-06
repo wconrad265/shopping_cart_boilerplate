@@ -1,31 +1,44 @@
 import axios from "axios";
+import { Product } from "../Types/Product";
+import { z } from "zod";
 
-export const addToShoppingCart = async (productId: string) => {
-  try {
-    const { data } = await axios.post("/api/add-to-cart", {
-      productId: productId,
-    });
+interface AddToShoppingCart {
+  product: Product;
+  item: Product;
+}
 
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+const productSchema = z.object({
+  _id: z.string(),
+  title: z.string(),
+  quantity: z.number(),
+  price: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+const getShoppingCartSchema = z.array(productSchema);
+
+const addToShoppingCartSchema = z.object({
+  product: productSchema,
+  item: productSchema,
+});
+
+export const addToShoppingCart = async (
+  productId: string
+): Promise<AddToShoppingCart> => {
+  const { data } = await axios.post("/api/add-to-cart", {
+    productId: productId,
+  });
+
+  return addToShoppingCartSchema.parse(data);
 };
 
-export const getShoppingCart = async () => {
-  try {
-    const { data } = await axios.get("/api/cart");
+export const getShoppingCart = async (): Promise<Product[]> => {
+  const { data } = await axios.get("/api/cart");
 
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+  return getShoppingCartSchema.parse(data);
 };
 
-export const checkout = async () => {
-  try {
-    await axios.post("/api/checkout");
-  } catch (error) {
-    console.error(error);
-  }
+export const checkout = async (): Promise<void> => {
+  await axios.post("/api/checkout");
 };

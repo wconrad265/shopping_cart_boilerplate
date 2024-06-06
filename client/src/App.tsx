@@ -51,18 +51,15 @@ function App() {
     setAddForm((prevState) => !prevState);
   };
 
-  const handleAddingProduct = async (product: NewProduct) => {
+  const handleAddingProduct = async (
+    product: NewProduct,
+    callback?: () => void
+  ) => {
     try {
-      const response = await addNewProduct(product);
-
-      const newProduct: ProductType = {
-        _id: response._id,
-        title: response.title,
-        price: response.price,
-        quantity: response.quantity,
-      };
+      const newProduct = await addNewProduct(product);
 
       setProducts((prevProducts) => prevProducts.concat(newProduct));
+      if (callback) callback();
     } catch (error) {
       console.error();
     }

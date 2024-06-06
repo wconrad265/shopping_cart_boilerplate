@@ -14,6 +14,7 @@ const ShoppingCart = ({ cartItems, onCheckout }: ShoppingCartProps) => {
       </tr>
     );
   };
+
   const handleCartItemsCreation = () => {
     return cartItems.map(handleTableRowCreation);
   };
@@ -24,11 +25,7 @@ const ShoppingCart = ({ cartItems, onCheckout }: ShoppingCartProps) => {
       .toFixed(2);
   };
 
-  const handleCheckoutButtonDisable = () => {
-    return cartItems.length === 0;
-  };
-
-  const emptyShoppingCart = () => {
+  const handleEmptyShoppingCart = () => {
     return (
       <>
         <p>Your cart is empty</p>
@@ -36,10 +33,11 @@ const ShoppingCart = ({ cartItems, onCheckout }: ShoppingCartProps) => {
       </>
     );
   };
+
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      {cartItems.length === 0 && emptyShoppingCart()}
+      {cartItems.length === 0 && handleEmptyShoppingCart()}
       {cartItems.length > 0 && (
         <table className="cart-items">
           <thead>{handleCartItemsCreation()}</thead>
@@ -56,7 +54,7 @@ const ShoppingCart = ({ cartItems, onCheckout }: ShoppingCartProps) => {
 
       <button
         className="checkout"
-        disabled={handleCheckoutButtonDisable()}
+        disabled={cartItems.length === 0}
         onClick={onCheckout}
       >
         Checkout

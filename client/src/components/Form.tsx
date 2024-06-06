@@ -3,7 +3,7 @@ import useField from "./hooks/useField";
 import { NewProduct } from "../Types/Product";
 
 interface FormProps {
-  onFormSubmission: (product: NewProduct) => void;
+  onFormSubmission: (product: NewProduct, callback?: () => void) => void;
   isFormVisible: boolean;
   className: string;
   onFormVisibility: () => void;
@@ -43,9 +43,8 @@ const Form = ({
       quantity: Number(productQuantity.value),
     };
 
-    onFormSubmission(newProductInfo);
+    onFormSubmission(newProductInfo, resetForm);
     onFormVisibility();
-    if (className === "add-form") resetForm();
   };
 
   return (

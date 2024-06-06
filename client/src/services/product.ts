@@ -1,39 +1,39 @@
 import axios from "axios";
 import { NewProduct, Product } from "../Types/Product";
-export const getAllProducts = async () => {
-  try {
-    const { data } = await axios.get("/api/products");
+import { z } from "zod";
 
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+const productSchema = z.object({
+  _id: z.string(),
+  title: z.string(),
+  quantity: z.number(),
+  price: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+const productsArraySchema = z.array(productSchema);
+
+export const getAllProducts = async (): Promise<Product[]> => {
+  const { data } = await axios.get("/api/products");
+  
+  return productsArraySchema.parse(data);
 };
 
-export const addNewProduct = async (product: NewProduct) => {
-  try {
-    const { data } = await axios.post("/api/products", product);
+export const addNewProduct = async (product: NewProduct): Promise<Product> => {
+  const { data } = await axios.post("/api/products", product);
 
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+  return productSchema.parse(data);
 };
 
-export const editProduct = async (newProduct: Product, id: string) => {
-  try {
-    const { data } = await axios.put(`/api/products/${id}`, newProduct);
+export const editProduct = async (
+  newProduct: Product,
+  id: string
+): Promise<Product> => {
+  const { data } = await axios.put(`/api/products/${id}`, newProduct);
 
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+  return productSchema.parse(data);
 };
 
-export const deleteProduct = async (id: string) => {
-  try {
-    await axios.delete(`/api/products/${id}`);
-  } catch (error) {
-    console.error(error);
-  }
+export const deleteProduct = async (id: string): Promise<void> => {
+  await axios.delete(`/api/products/${id}`);
 };
