@@ -19,9 +19,9 @@ const EditableProductDetails = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddToCart = async () => {
-    setIsLoading(true);
+    setIsLoading((prevState) => !prevState);
     await onAddToCartItem(_id);
-    setIsLoading(false);
+    setIsLoading((prevState) => !prevState);
   };
 
   return (
