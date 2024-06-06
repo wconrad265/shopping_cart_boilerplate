@@ -7,15 +7,13 @@ const productSchema = z.object({
   title: z.string(),
   quantity: z.number(),
   price: z.number(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const productsArraySchema = z.array(productSchema);
 
 export const getAllProducts = async (): Promise<Product[]> => {
   const { data } = await axios.get("/api/products");
-  
+
   return productsArraySchema.parse(data);
 };
 

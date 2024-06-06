@@ -1,6 +1,7 @@
 import { NewProduct, Product as ProductType } from "../Types/Product";
 import { useState } from "react";
 import Form from "./Form";
+import EditableProductDetails from "./EditableProductDetails";
 
 interface ProductProps extends ProductType {
   onEditingProduct: (product: ProductType) => void;
@@ -34,29 +35,15 @@ const Product = ({
   return (
     <>
       <li className="product">
-        <div className="product-details">
-          <h3>{title}</h3>
-          <p className="price">{price}</p>
-          <p className="quantity">{quantity}</p>
-          <div className="actions product-actions">
-            <button
-              className="add-to-cart"
-              onClick={() => onAddToCartItem(_id)}
-              disabled={quantity === 0}
-            >
-              Add to Cart
-            </button>
-            <button className="edit" onClick={handleEditFormVisibility}>
-              Edit
-            </button>
-          </div>
-        </div>
-        <button
-          className="delete-button"
-          onClick={() => onProductDeletion(_id)}
-        >
-          <span>X</span>
-        </button>
+        <EditableProductDetails
+          onEditFormVisibility={handleEditFormVisibility}
+          onProductDeletion={onProductDeletion}
+          onAddToCartItem={onAddToCartItem}
+          title={title}
+          price={price}
+          quantity={quantity}
+          _id={_id}
+        />
         <Form
           onFormSubmission={handleEditFormSubmission}
           isFormVisible={isEditFormVisible}

@@ -12,8 +12,6 @@ const productSchema = z.object({
   title: z.string(),
   quantity: z.number(),
   price: z.number(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const getShoppingCartSchema = z.array(productSchema);

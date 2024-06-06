@@ -1,6 +1,6 @@
 import ShoppingCart from "./components/ShoppingCart";
 import ProductListing from "./components/ProductListing";
-import Form from "./components/Form";
+import ToggleAddProductButton from "./components/ToggableAddProductForm";
 import { Product as ProductType, NewProduct } from "./Types/Product";
 import { useEffect, useState } from "react";
 import {
@@ -18,7 +18,6 @@ import {
 function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [cartItems, setCartItems] = useState<ProductType[]>([]);
-  const [isAddFormVisible, setAddForm] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -47,10 +46,6 @@ function App() {
     fetchShoppingCart();
   }, []);
 
-  const handleAddFormVisibility = () => {
-    setAddForm((prevState) => !prevState);
-  };
-
   const handleAddingProduct = async (
     product: NewProduct,
     callback?: () => void
@@ -64,7 +59,7 @@ function App() {
       console.error();
     }
   };
-
+  //change p to products
   const handleEditProduct = async (product: ProductType) => {
     try {
       const id = product._id;
@@ -72,49 +67,48 @@ function App() {
       const editedProduct = await editProduct(product, id);
 
       setProducts((prevState) =>
-        prevState.map((p) => (p._id === id ? editedProduct : p))
+        prevState.map((product) =>
+          product._id === id ? editedProduct : product
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //change p to products
+  const handleDeletionOfProduct = async (id: string) => {
+    try {
+      await deleteProduct(id);
+      setProducts((prevState) =>
+        prevState.filter((product) => product._id !== id)
       );
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDeletionOfProduct = async (id: string) => {
-    try {
-      await deleteProduct(id);
-      setProducts((prevState) => prevState.filter((p) => p._id !== id));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleAddProductButton = () => {
-    return (
-      <p>
-        <button
-          className="add-product-button"
-          onClick={handleAddFormVisibility}
-        >
-          Add A Product
-        </button>
-      </p>
-    );
-  };
-
+  //Change from i to item
   const handleAddCartItem = async (productId: string) => {
     try {
       const { product, item } = await addToShoppingCart(productId);
+      const isCartItem = cartItems.find(
+        (cartItem) => cartItem._id === item._id
+      );
 
-      if (cartItems.find((i) => i._id === item._id)) {
+      if (isCartItem) {
         setCartItems((prevState) =>
-          prevState.map((i) => (i._id === item._id ? item : i))
+          prevState.map((cartItem) =>
+            cartItem._id === item._id ? item : cartItem
+          )
         );
       } else {
         setCartItems((prevState) => prevState.concat(item));
       }
 
       setProducts((prevState) =>
-        prevState.map((p) => (p._id === productId ? product : p))
+        prevState.map((shopProduct) =>
+          shopProduct._id === productId ? product : shopProduct
+        )
       );
     } catch (error) {
       console.error(error);
@@ -143,13 +137,7 @@ function App() {
           onProductDeletion={handleDeletionOfProduct}
           onAddToCartItem={handleAddCartItem}
         />
-        {handleAddProductButton()}
-        <Form
-          onFormSubmission={handleAddingProduct}
-          isFormVisible={isAddFormVisible}
-          className="add-form"
-          onFormVisibility={handleAddFormVisibility}
-        />
+        <ToggleAddProductButton onFormSubmission={handleAddingProduct} />
       </main>
     </div>
   );

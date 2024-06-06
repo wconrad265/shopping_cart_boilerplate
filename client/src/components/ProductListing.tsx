@@ -1,4 +1,4 @@
-import Product from "./Product.tsx";
+import Product from "./EditableProduct.tsx";
 import { Product as ProductType } from "../Types/Product";
 
 interface PropTypes {
