@@ -1,6 +1,6 @@
 import ShoppingCart from "./components/ShoppingCart";
 import ProductListing from "./components/ProductListing";
-import ToggleAddProductButton from "./components/ToggableAddProductForm";
+import ToggleAddProductButton from "./components/ToggleAddProductForm";
 import { Product as ProductType, NewProduct } from "./Types/Product";
 import { useEffect, useState } from "react";
 import {
@@ -65,7 +65,7 @@ function App() {
       const id = product._id;
 
       const editedProduct = await editProduct(product, id);
-
+      console.log(editedProduct);
       setProducts((prevState) =>
         prevState.map((product) =>
           product._id === id ? editedProduct : product

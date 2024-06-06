@@ -3,27 +3,30 @@ import { useState } from "react";
 import Form from "./Form";
 import EditableProductDetails from "./EditableProductDetails";
 
-interface ProductProps {
+interface EditableProductProps {
   onEditingProduct: (product: ProductType) => void;
   onProductDeletion: (id: string) => void;
   onAddToCartItem: (id: string) => void;
   product: ProductType;
 }
 
-const Product = ({
+const EditableProduct = ({
   onEditingProduct,
   onProductDeletion,
   onAddToCartItem,
   product,
-}: ProductProps) => {
+}: EditableProductProps) => {
   const [isEditFormVisible, setEditFormVisible] = useState(false);
-  const { title, price, quantity, _id } = product;
+
+  const { title, price, quantity } = product;
+
   const handleEditFormVisibility = () => {
     setEditFormVisible((prevState) => !prevState);
   };
 
   const handleEditFormSubmission = async (newProductInfo: NewProduct) => {
-    await onEditingProduct({ _id, ...newProductInfo });
+    const editedProduct = { ...product, ...newProductInfo };
+    await onEditingProduct(editedProduct);
   };
 
   return (
@@ -51,4 +54,4 @@ const Product = ({
   );
 };
 
-export default Product;
+export default EditableProduct;

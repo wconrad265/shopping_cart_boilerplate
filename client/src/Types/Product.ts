@@ -3,6 +3,8 @@ export interface Product {
   title: string;
   quantity: number;
   price: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface NewProduct

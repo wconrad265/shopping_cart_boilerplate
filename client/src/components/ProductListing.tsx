@@ -1,4 +1,4 @@
-import Product from "./EditableProduct.tsx";
+import EditableProduct from "./EditableProduct.tsx";
 import { Product as ProductType } from "../Types/Product";
 
 interface PropTypes {
@@ -18,7 +18,7 @@ const ProductListing = ({
     return (
       <>
         {products.map((product) => (
-          <Product
+          <EditableProduct
             key={product._id}
             onEditingProduct={onEditingProduct}
             onProductDeletion={onProductDeletion}
