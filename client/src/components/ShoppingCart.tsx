@@ -25,20 +25,15 @@ const ShoppingCart = ({ cartItems, onCheckout }: ShoppingCartProps) => {
       .toFixed(2);
   };
 
-  const handleEmptyShoppingCart = () => {
-    return (
-      <>
-        <p>Your cart is empty</p>
-        <p>Total: $0</p>
-      </>
-    );
-  };
-
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      {cartItems.length === 0 && handleEmptyShoppingCart()}
-      {cartItems.length > 0 && (
+      {cartItems.length === 0 ? (
+        <>
+          <p>Your cart is empty</p>
+          <p>Total: $0</p>
+        </>
+      ) : (
         <table className="cart-items">
           <thead>{handleCartItemsCreation()}</thead>
           <tbody></tbody>

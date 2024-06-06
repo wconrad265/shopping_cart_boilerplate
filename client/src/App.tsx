@@ -59,7 +59,7 @@ function App() {
       console.error();
     }
   };
-  //change p to products
+
   const handleEditProduct = async (product: ProductType) => {
     try {
       const id = product._id;
@@ -75,7 +75,7 @@ function App() {
       console.error(error);
     }
   };
-  //change p to products
+
   const handleDeletionOfProduct = async (id: string) => {
     try {
       await deleteProduct(id);
@@ -87,7 +87,6 @@ function App() {
     }
   };
 
-  //Change from i to item
   const handleAddCartItem = async (productId: string) => {
     try {
       const { product, item } = await addToShoppingCart(productId);

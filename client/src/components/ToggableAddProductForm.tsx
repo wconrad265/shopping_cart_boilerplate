@@ -1,7 +1,6 @@
 import { useState } from "react";
-import Form from "./Form"; //Turn this into a component
+import Form from "./Form";
 import { NewProduct } from "../Types/Product";
-//put the state in this
 
 interface ToggleAddFromTypes {
   onFormSubmission: (product: NewProduct) => void;
