@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Product } from "../Types/Product";
 
 interface ProductProps extends Product {
@@ -15,6 +16,14 @@ const EditableProductDetails = ({
   quantity,
   _id,
 }: ProductProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAddToCart = async () => {
+    setIsLoading(true);
+    await onAddToCartItem(_id);
+    setIsLoading(false);
+  };
+
   return (
     <>
       <div className="product-details">
@@ -25,10 +34,10 @@ const EditableProductDetails = ({
           <button
             className="add-to-cart"
             type="button"
-            onClick={() => onAddToCartItem(_id)}
-            disabled={quantity === 0}
+            onClick={handleAddToCart}
+            disabled={quantity === 0 || isLoading}
           >
-            Add to Cart
+            {isLoading ? "Adding" : "Add to Cart"}
           </button>
           <button type="button" className="edit" onClick={onEditFormVisibility}>
             Edit

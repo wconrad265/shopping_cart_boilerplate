@@ -103,6 +103,7 @@ button {
   font-family: sans-serif;
   cursor: pointer;
   display: inline-block;
+  margin-right: 3px;
 }
 
 .checkout {
