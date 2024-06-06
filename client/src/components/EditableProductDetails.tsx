@@ -24,17 +24,22 @@ const EditableProductDetails = ({
         <div className="actions product-actions">
           <button
             className="add-to-cart"
+            type="button"
             onClick={() => onAddToCartItem(_id)}
             disabled={quantity === 0}
           >
             Add to Cart
           </button>
-          <button className="edit" onClick={onEditFormVisibility}>
+          <button type="button" className="edit" onClick={onEditFormVisibility}>
             Edit
           </button>
         </div>
       </div>
-      <button className="delete-button" onClick={() => onProductDeletion(_id)}>
+      <button
+        type="button"
+        className="delete-button"
+        onClick={() => onProductDeletion(_id)}
+      >
         <span>X</span>
       </button>
     </>
