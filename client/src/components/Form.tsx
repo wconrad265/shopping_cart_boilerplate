@@ -57,7 +57,7 @@ const Form = ({
               required
               type={productName.type}
               id={productName.id}
-              aria-label={productName.name}
+              name={productName.name}
               value={productName.value}
               onChange={productName.onChange}
             />
@@ -68,7 +68,7 @@ const Form = ({
               required
               type={productPrice.type}
               id={productPrice.id}
-              aria-label={productPrice.name}
+              name={productPrice.name}
               value={productPrice.value}
               onChange={productPrice.onChange}
               min="0"
@@ -81,7 +81,7 @@ const Form = ({
               required
               type={productQuantity.type}
               id={productQuantity.id}
-              aria-label={productQuantity.name}
+              name={productQuantity.name}
               value={productQuantity.value}
               onChange={productQuantity.onChange}
             />
