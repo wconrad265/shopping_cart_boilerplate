@@ -23,7 +23,7 @@ const ProductListing = ({
             onEditingProduct={onEditingProduct}
             onProductDeletion={onProductDeletion}
             onAddToCartItem={onAddToCartItem}
-            {...product}
+            product={product}
           />
         ))}
       </>

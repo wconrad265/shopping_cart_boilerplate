@@ -129,6 +129,7 @@ function App() {
         <h1>The Shop!</h1>
         {<ShoppingCart cartItems={cartItems} onCheckout={handleCheckout} />}
       </header>
+
       <main>
         <ProductListing
           products={products}

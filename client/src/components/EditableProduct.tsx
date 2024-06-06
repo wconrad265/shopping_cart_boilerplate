@@ -3,33 +3,27 @@ import { useState } from "react";
 import Form from "./Form";
 import EditableProductDetails from "./EditableProductDetails";
 
-interface ProductProps extends ProductType {
+interface ProductProps {
   onEditingProduct: (product: ProductType) => void;
   onProductDeletion: (id: string) => void;
   onAddToCartItem: (id: string) => void;
+  product: ProductType;
 }
 
 const Product = ({
-  title,
-  quantity,
-  price,
-  _id,
   onEditingProduct,
   onProductDeletion,
   onAddToCartItem,
+  product,
 }: ProductProps) => {
   const [isEditFormVisible, setEditFormVisible] = useState(false);
-
+  const { title, price, quantity, _id } = product;
   const handleEditFormVisibility = () => {
     setEditFormVisible((prevState) => !prevState);
   };
 
   const handleEditFormSubmission = async (newProductInfo: NewProduct) => {
-    try {
-      await onEditingProduct({ _id, ...newProductInfo });
-    } catch (error) {
-      console.error(error);
-    }
+    await onEditingProduct({ _id, ...newProductInfo });
   };
 
   return (
@@ -39,10 +33,7 @@ const Product = ({
           onEditFormVisibility={handleEditFormVisibility}
           onProductDeletion={onProductDeletion}
           onAddToCartItem={onAddToCartItem}
-          title={title}
-          price={price}
-          quantity={quantity}
-          _id={_id}
+          {...product}
         />
         {isEditFormVisible && (
           <Form

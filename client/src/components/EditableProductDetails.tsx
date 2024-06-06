@@ -9,11 +9,11 @@ interface ProductProps extends Product {
 const EditableProductDetails = ({
   onEditFormVisibility,
   onProductDeletion,
+  onAddToCartItem,
   title,
   price,
   quantity,
   _id,
-  onAddToCartItem,
 }: ProductProps) => {
   return (
     <>
