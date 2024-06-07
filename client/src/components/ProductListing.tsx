@@ -1,7 +1,7 @@
 import EditableProduct from "./EditableProduct.tsx";
 import { Product as ProductType } from "../Types/Product";
 
-interface PropTypes {
+interface ProductListingProps {
   products: ProductType[];
   onEditingProduct: (product: ProductType) => void;
   onProductDeletion: (id: string) => void;
@@ -13,7 +13,7 @@ const ProductListing = ({
   onEditingProduct,
   onProductDeletion,
   onAddToCartItem,
-}: PropTypes) => {
+}: ProductListingProps) => {
   const handleProductListCreation = () => {
     return (
       <>

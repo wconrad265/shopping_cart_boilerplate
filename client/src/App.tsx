@@ -65,7 +65,7 @@ function App() {
       const id = product._id;
 
       const editedProduct = await editProduct(product, id);
-      console.log(editedProduct);
+      
       setProducts((prevState) =>
         prevState.map((product) =>
           product._id === id ? editedProduct : product
@@ -90,19 +90,20 @@ function App() {
   const handleAddCartItem = async (productId: string) => {
     try {
       const { product, item } = await addToShoppingCart(productId);
-      const isCartItem = cartItems.find(
-        (cartItem) => cartItem._id === item._id
-      );
 
-      if (isCartItem) {
-        setCartItems((prevState) =>
-          prevState.map((cartItem) =>
-            cartItem._id === item._id ? item : cartItem
-          )
+      setCartItems((prevState) => {
+        const isCartItem = cartItems.find(
+          (cartItem) => cartItem._id === item._id
         );
-      } else {
-        setCartItems((prevState) => prevState.concat(item));
-      }
+
+        if (isCartItem) {
+          return prevState.map((cartItem) =>
+            cartItem._id === item._id ? item : cartItem
+          );
+        } else {
+          return prevState.concat(item);
+        }
+      });
 
       setProducts((prevState) =>
         prevState.map((shopProduct) =>
